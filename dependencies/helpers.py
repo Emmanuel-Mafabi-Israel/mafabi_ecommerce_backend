@@ -57,7 +57,7 @@ def user_selection()->int:
             print("Invalid choice, Please try again.")
 
 def header(message:str)->str:
-    return f" -------------------------- {message} -------------------------- "
+    return f"-------------------------- {message} --------------------------"
 
 def separator(header:str)->None:
     sep = "-" * len(header)

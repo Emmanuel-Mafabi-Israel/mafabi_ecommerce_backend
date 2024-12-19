@@ -118,11 +118,12 @@ def main_dashboard(DB:Session, user:User)->None:
 
 
 def view_cart(DB:Session, user:User):
-    print(f" ---------------- Your Cart: {user.UserName} ---------------- ")
+    h_string:str = header(f"Your Cart: {user.UserName}")
+    print(h_string)
     cart_items = Cart.check_all(DB, user.UserID)
     for cart_item in cart_items:
         print(f"ItemID: {cart_item.ItemID} | ItemPrice: ${cart_item.ItemPrice} | ItemQuantity: {cart_item.Quantity}")
-    print(" --------------------------------------------- ")
+    print(separator(h_string))
     transition(lambda: main_dashboard(DB, user))
 
 def add_item_to_cart(DB:Session, user:User):
@@ -169,7 +170,8 @@ def checkout(DB:Session, user:User)->None:
     print(f"Total amount payable: ${total}")
     confirmation:str = sanitize_input("Do you want to proceed with the checkout? (yes/no): ")
     if confirmation.lower() in ["yes", "y"]:
-        Cart.remove_all(DB, user.UserID, "Checkout Complete.")
+        result = Cart.remove_all(DB, user.UserID, "Checkout Complete.")
+        print(result)
     else:
         print("Checkout canceled...")
     transition(lambda: main_dashboard(DB, user))
