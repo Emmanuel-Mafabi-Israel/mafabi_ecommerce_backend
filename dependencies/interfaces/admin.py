@@ -89,8 +89,8 @@ def list_all_items(DB:Session):
     transition(lambda: admin_menu(DB))
 
 def help_menu(instance:callable):
-    print(" --------------- Trade-Engine, Help Menu --------------- ")
-    print(" For assistance, please contact support@trade-engine.com")
-    print(" ------------------------------------------------------- ")
+    print(" --------------- Trade-Engine, Help Menu ---------------- ")
+    print(" For assistance, please contact: support@trade-engine.com")
+    print(" -------------------------------------------------------- ")
     print("\n") # put a newline...
     transition(instance)
