@@ -78,8 +78,13 @@ class User(BASE):
         DB:Session,
         UserID:int,
         NewUserEmail:str):
-        user = DB.query(cls).filter_by(UserID=UserID).first()
+        # before any changes... let's check if the email also
+        # is existing...
+        existing_user = DB.query(cls).filter_by(UserEmail=NewUserEmail).first()
+        if existing_user:
+            return f"Email address [{NewUserEmail}] is already taken. Please choose another email."
 
+        user = DB.query(cls).filter_by(UserID=UserID).first()
         if user:
             # user exists...
             oldUserEmail = user.UserEmail
