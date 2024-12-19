@@ -22,7 +22,7 @@ Trade-Engine/
 │   └── user.py
 ├── relationships/
 │   ├── ecommerce_relationships_backend.png
-│   ├── ecommerce_relationships_backend.svg
+│   └── ecommerce_relationships_backend.svg
 ├── storage/
 │   ├── database/
 │   │   └── storage.db
