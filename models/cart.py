@@ -103,14 +103,15 @@ class Cart(BASE):
     def remove_all(
         cls,
         DB:Session,
-        UserID:int)->str:
+        UserID:int, 
+        message:str="All items removed from the cart.")->str:
         cart_items = DB.query(cls).filter_by(UserID=UserID).all()
 
         for cart_item in cart_items:
             DB.delete(cart_item)
 
         DB.commit()
-        return f"All items removed fromt the cart."
+        return message
         
     @classmethod
     def get_totals(

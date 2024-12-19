@@ -159,8 +159,8 @@ def remove_item_from_cart(DB:Session, user:User)->None:
             break
         except ValueError:
             print(f"Invalid input. Enter an item id value - please.")
-    Cart.delete_from_cart(DB, user.UserID, item_id)
-    print(f"Removed item {item_id} from your cart.")
+    result = Cart.delete_from_cart(DB, user.UserID, item_id)
+    print(result)
     transition(lambda: main_dashboard(DB, user))
 
 def checkout(DB:Session, user:User)->None:
@@ -168,9 +168,8 @@ def checkout(DB:Session, user:User)->None:
     total = Cart.get_totals(DB, user.UserID)
     print(f"Total amount payable: {total}")
     confirmation:str = sanitize_input("Do you want to proceed with the checkout? (yes/no): ")
-    if confirmation.lower() == "yes" or "y":
-        Cart.remove_all(DB, user.UserID)
-        print("Checkout Complete.")
+    if confirmation.lower() in ["yes", "y"]:
+        Cart.remove_all(DB, user.UserID, "Checkout Complete.")
     else:
         print("Checkout canceled...")
     transition(lambda: main_dashboard(DB, user))
@@ -203,8 +202,9 @@ def account_options(DB:Session, user:User):
         print(f" Old username: {user.UserName}")
         print(" ------------------------------- ")
         new_account_name:str = sanitize_input("New Username: ")
-        user.change_username(DB, user.UserID, new_account_name)
+        result = user.change_username(DB, user.UserID, new_account_name)
         # transition(lambda: main_dashboard(user))
+        print(result)
         transition(lambda: account_options(DB, user))
     elif selection == 3:
         print(" ------------------------------- ")
@@ -214,7 +214,6 @@ def account_options(DB:Session, user:User):
         new_account_email:str = sanitize_input("New account email: ")
         result = user.change_email(DB, user.UserID, new_account_email)
         print(result)
-        # transition(lambda: main_dashboard(user))
         transition(lambda: account_options(DB, user))      
     elif selection == 4:
         print(" ------------------------------- ")
@@ -230,7 +229,8 @@ def account_options(DB:Session, user:User):
                 password_confirm:str     = sanitize_input("Confirm new password: ")
                 if new_account_password.lower() == password_confirm.lower():
                     # passwords match...
-                    user.change_password(DB, user.UserID, new_account_password)
+                    result = user.change_password(DB, user.UserID, new_account_password)
+                    print(result)
                     transition(lambda: account_options(DB, user))
                     return
                 else:
@@ -249,7 +249,7 @@ def account_options(DB:Session, user:User):
     elif selection == 6:
         # account deletion...
         choice:str = sanitize_input("Continue with account deletion? (yes/no): ")
-        if choice.lower() == "yes" or choice.lower() == "y":
+        if choice.lower() in ["yes", "y"]:
             # continue with account deletion request
             user.delete_account(DB, user.UserEmail)
             clear_screen()

@@ -4,7 +4,7 @@
 # ADMIN INTERFACES and RELATED FUNCTIONS
 
 import sys
-from dependencies.helpers import sanitize_input, transition, user_selection
+from dependencies.helpers import clear_screen, sanitize_input, transition, user_selection
 
 from models.stock import Stock
 
@@ -32,6 +32,9 @@ def admin_menu(DB:Session):
         list_all_items(DB)
     elif selection == 5:
         transition(lambda: main_menu(DB), "Logging out", 1)
+    elif selection == 8:
+        clear_screen()
+        admin_menu(DB)
     else:
         print("Goodbye!")
         sys.exit()
