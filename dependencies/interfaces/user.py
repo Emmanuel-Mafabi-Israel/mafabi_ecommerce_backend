@@ -31,7 +31,7 @@ def register(DB:Session)->None:
             print(f"Account creation succeeded")
             transition(lambda: main_dashboard(DB, new_user), "Loading your panel", 1)
         except Exception as ERROR:
-            print(f"an error occured - details: {ERROR}")
+            print(f"An error occured: {ERROR}")
             print(f"Share this error with, help@trade-engine.com")
     else:
         # the user exists...

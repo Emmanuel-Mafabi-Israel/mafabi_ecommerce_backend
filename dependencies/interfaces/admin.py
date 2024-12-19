@@ -56,16 +56,21 @@ def add_stock(DB:Session):
             break
         except ValueError:
             print(f"Invalid input. Enter a quantity value - please.")
-
-    Stock.add_stock(DB, item_name, item_category, item_price, item_quantity)
-    print(f"Stock for {item_name} added.")
+    try:
+        Stock.add_stock(DB, item_name, item_category, item_price, item_quantity)
+        print(f"Stock for {item_name} added.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
     transition(lambda: admin_menu(DB))
 
 def remove_stock(DB:Session): 
     print(" ---- Remove Stock ---- ") 
     item_name = sanitize_input("Enter item name: ") 
-    Stock.rem_stock(DB, item_name) 
-    print(f"Stock for {item_name} removed.") 
+    try:
+        result = Stock.rem_stock(DB, item_name) 
+        print(result) 
+    except Exception as e:
+        print(f"An error occurred: {e}")
     transition(lambda: admin_menu(DB))
 
 def change_price(DB:Session):
@@ -76,9 +81,12 @@ def change_price(DB:Session):
             new_price    = float(input("Enter Item Price: "))
             break
         except ValueError:
-            print(f"Invalid input. Enter a price value - please.")      
-    Stock.change_price(DB, item_name, new_price)
-    print(f"Price for {item_name} updated.")
+            print(f"Invalid input. Enter a price value - please.") 
+    try:     
+        Stock.change_price(DB, item_name, new_price)
+        print(f"Price for {item_name} updated.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
     transition(lambda: admin_menu(DB))
 
 def list_all_items(DB:Session):

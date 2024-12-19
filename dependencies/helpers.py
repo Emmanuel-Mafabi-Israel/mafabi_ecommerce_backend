@@ -59,6 +59,6 @@ def user_selection()->int:
 def header(message:str)->str:
     return f"-------------------------- {message} --------------------------"
 
-def separator(header:str)->None:
+def separator(header:str)->str:
     sep = "-" * len(header)
     return sep 
