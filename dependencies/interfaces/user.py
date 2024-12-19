@@ -4,7 +4,7 @@
 # USER INTERFACES and RELATED FUNCTIONS
 
 import sys
-from dependencies.helpers import clear_screen, sanitize_input, transition, user_selection, validate_email
+from dependencies.helpers import clear_screen, sanitize_input, transition, user_selection, validate_email, header, separator
 
 from models.user  import User
 from models.stock import Stock
@@ -121,7 +121,7 @@ def view_cart(DB:Session, user:User):
     print(f" ---------------- Your Cart: {user.UserName} ---------------- ")
     cart_items = Cart.check_all(DB, user.UserID)
     for cart_item in cart_items:
-        print(f"ItemID: {cart_item.ItemID} | ItemPrice: {cart_item.ItemPrice} | ItemQuantity: {cart_item.Quantity}")
+        print(f"ItemID: {cart_item.ItemID} | ItemPrice: ${cart_item.ItemPrice} | ItemQuantity: {cart_item.Quantity}")
     print(" --------------------------------------------- ")
     transition(lambda: main_dashboard(DB, user))
 
@@ -146,7 +146,7 @@ def add_item_to_cart(DB:Session, user:User):
             # this is an error message...
             print(result)
         else:
-            print(f"Added {item_quantity} of {new_item.ItemName} to cart.")
+            print(f"Added {item_quantity} items of {new_item.ItemName} to cart.")
     else:
         print("Item not found.")
     transition(lambda: main_dashboard(DB, user))
@@ -166,7 +166,7 @@ def remove_item_from_cart(DB:Session, user:User)->None:
 def checkout(DB:Session, user:User)->None:
     print(f" ---- Checkout for: {user.UserName} ---- ")
     total = Cart.get_totals(DB, user.UserID)
-    print(f"Total amount payable: {total}")
+    print(f"Total amount payable: ${total}")
     confirmation:str = sanitize_input("Do you want to proceed with the checkout? (yes/no): ")
     if confirmation.lower() in ["yes", "y"]:
         Cart.remove_all(DB, user.UserID, "Checkout Complete.")

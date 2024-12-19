@@ -54,4 +54,11 @@ def user_selection()->int:
             selection:int = int(input("Option: "))
             return selection
         except ValueError:
-            print("Invalid choice, Please try again.")  
+            print("Invalid choice, Please try again.")
+
+def header(message:str)->str:
+    return f" -------------------------- {message} -------------------------- "
+
+def separator(header:str)->None:
+    sep = "-" * len(header)
+    return sep 
