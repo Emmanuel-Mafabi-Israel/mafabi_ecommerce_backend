@@ -93,7 +93,7 @@ def list_all_items(DB:Session):
     print(" ---- All Items ---- ")
     items = Stock.list_all(DB)
     for item in items:
-        print(f"ItemName: {item.ItemName} | ItemCategory: {item.ItemCategory} | ItemPrice: {item.ItemPrice} | ItemQuantity: {item.ItemQuantity}")
+        print(f"ItemName: {item.ItemName} | ItemCategory: {item.ItemCategory} | ItemPrice: ${item.ItemPrice} | ItemQuantity: {item.ItemQuantity}")
     transition(lambda: admin_menu(DB))
 
 def help_menu(instance:callable):
