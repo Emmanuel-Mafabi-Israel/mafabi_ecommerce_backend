@@ -6,6 +6,8 @@
 import sys
 from dependencies.helpers import clear_screen, sanitize_input, transition, user_selection, validate_email, header, separator
 
+import getpass
+
 from models.user  import User
 from models.stock import Stock
 from models.cart  import Cart
@@ -21,7 +23,8 @@ def register(DB:Session)->None:
             break
         else:
             print(" Enter a valid email address, follow this structure: your-name@domain.com")
-    user_password:str = sanitize_input("Enter your account password: ", 7, 10, "Enter a password ranging from 7 to 10 characters long.")
+    # user_password:str = sanitize_input("Enter your account password: ", 7, 10, "Enter a password ranging from 7 to 10 characters long.")
+    user_password = getpass.getpass("Enter your account password: ")
     # before creating the account... let's check if the account exists first...
     existing_user = DB.query(User).filter(User.UserEmail == user_email).first()
     if not existing_user:
@@ -50,7 +53,8 @@ def login(DB:Session):
                 break
             else:
                 print(" Enter a valid email address, follow this structure: your-name@domain.com")
-        user_password:str = sanitize_input("Enter your account password: ", 7, 10, "Enter a password ranging from 7 to 10 characters long.")
+        # user_password:str = sanitize_input("Enter your account password: ", 7, 10, "Enter a password ranging from 7 to 10 characters long.")
+        user_password:str = getpass.getpass("Enter your account password: ")
         user = DB.query(User).filter(User.UserEmail == user_email, User.UserPassword == User.hash_password(user_password)).first()
         if user:
             print(f"Welcome back, {user.UserName}")
@@ -227,8 +231,9 @@ def account_options(DB:Session, user:User):
         if old_password == user.UserPasswordB:
             # the user is legit...
             while True:
-                new_account_password:str = sanitize_input("New password: ")
-                password_confirm:str     = sanitize_input("Confirm new password: ")
+                # new_account_password:str = sanitize_input("New password: ")
+                new_account_password:str = getpass.getpass("New password: ")
+                password_confirm:str     = getpass.getpass("Confirm new password: ")
                 if new_account_password.lower() == password_confirm.lower():
                     # passwords match...
                     result = user.change_password(DB, user.UserID, new_account_password)
